@@ -1,0 +1,30 @@
+spring:
+    application:
+        name: ai
+    
+    datasource:
+        url: jdbc:postgresql://localhost:5432/postgres
+        username: postgres
+        password: postgres
+
+    ai:
+        vectorstore:
+            pgvector:
+                initialize-schema: true  #   애플리케이션 시작 시 자동 생성(pgvector  테이블 자동 생성)
+                schema-name: public  #   pgvector 테이블이 생성될 스키마 이름(기본값: public)
+                table-name: vector_store  #   벡터 데이터를 저장할 테이블 이름(기본값: vector_store) 
+                dimensions: 3072  #   벡터의 차원 수(기본: 3072)
+                index-type: none  #   벡터 인덱스 유형(기본값)
+        openai:
+            # chat:
+            #     options:
+            #         model: gpt-4o-mini
+            embedding:
+                options:
+                    model: text-embedding-3-large    # text-embedding-ada-002(기본)
+            api-key: ${OPENAI_API_KEY}
+    output:
+        ansi:
+            enabled: always
+server:
+  port: 8080
