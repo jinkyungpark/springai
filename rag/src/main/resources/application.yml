@@ -1,0 +1,59 @@
+spring:
+  application:
+    name: rag
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
+
+  ai:
+    vectorstore:
+      pgvector:
+        initialize-schema: true   # 애플리케이션 시작 시 테이블 자동 생성
+        schema-name: public       # 스키마 이름
+        table-name: vector_store  # 테이블 이름
+        dimensions: 3072          # 벡터 차원 수
+        index-type: none          # 인덱스 타입
+    openai:
+      embedding:
+        options:
+          model: text-embedding-3-large
+      api-key: ${OPENAI_API_KEY}
+
+  output:
+    ansi:
+      enabled: always
+
+  web:
+    resources:
+      cache:
+        cachecontrol:
+          no-cache: true
+          no-store: true
+          must-revalidate: true
+
+  servlet:
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 35MB
+      enabled: true
+
+server:
+  port: 8080
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+logging:
+  pattern:
+    console: "%clr(%-5level){green} %clr(%logger.%M\\(\\)){cyan}: %msg%n"
+  level:
+    org:
+      springframework:
+        ai:
+          chat:
+            client:
+              advisor: DEBUG
